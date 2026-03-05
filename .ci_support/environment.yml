@@ -1,11 +1,10 @@
 name: damask-test
 channels:
   - conda-forge
-  - coverage
-  - pip
-  - pip:
-    - coveralls
 dependencies:
   - damask =3.0.2
   - requests =2.32.4
   - mendeleev =1.1.0
+  - pip
+  - pip:
+    - coveralls
