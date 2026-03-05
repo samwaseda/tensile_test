@@ -58,7 +58,9 @@ def with_explicit_defaults(func):
                 if default_val.msg:
                     warnings.warn(default_val.msg)
                 else:
-                    warnings.warn(f"'{name}' not provided, using default: {default_val.default}")
+                    warnings.warn(
+                        f"'{name}' not provided, using default: {default_val.default}"
+                    )
                 if param.kind in [param.POSITIONAL_ONLY, param.POSITIONAL_OR_KEYWORD]:
                     idx = list(sig.parameters).index(name)
                     if idx < len(new_args):
@@ -515,7 +517,9 @@ def get_material(rotation, phase, homogenization):
 
 
 @with_explicit_defaults
-def get_grid(num_grains, box_size=use_default(1.0e-5), spatial_discretization=use_default(16)):
+def get_grid(
+    num_grains, box_size=use_default(1.0e-5), spatial_discretization=use_default(16)
+):
     return generate_grid_from_voronoi_tessellation(
         box_size=box_size,
         spatial_discretization=spatial_discretization,
@@ -557,9 +561,9 @@ def run_damask(material, loading, grid, path=None):
     path.mkdir(exist_ok=True)
     material.save(path / "material.yaml")
     loading.save(path / "loading.yaml")
-    grid.save(path / f"damask")
+    grid.save(path / "damask")
 
-    command = f"DAMASK_grid -m material.yaml -l loading.yaml -g damask.vti".split()
+    command = "DAMASK_grid -m material.yaml -l loading.yaml -g damask.vti".split()
     process = subprocess.Popen(
         command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=path
     )
