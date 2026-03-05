@@ -561,9 +561,9 @@ def run_damask(material, loading, grid, path=None):
     path.mkdir(exist_ok=True)
     material.save(path / "material.yaml")
     loading.save(path / "loading.yaml")
-    grid.save(path / f"damask")
+    grid.save(path / "damask")
 
-    command = f"DAMASK_grid -m material.yaml -l loading.yaml -g damask.vti".split()
+    command = "DAMASK_grid -m material.yaml -l loading.yaml -g damask.vti".split()
     process = subprocess.Popen(
         command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=path
     )
