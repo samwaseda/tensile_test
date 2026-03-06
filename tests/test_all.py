@@ -1,6 +1,6 @@
 import unittest
 
-from damask_local import main as dsk
+from tensile_test import damask as dsk
 
 
 class TestFull(unittest.TestCase):
