@@ -62,5 +62,3 @@ def with_explicit_defaults(func):
         return func(*new_args, **new_kwargs)
 
     return wrapper
-
-
