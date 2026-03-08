@@ -28,6 +28,10 @@ jobs:
         condarc-file: .condarc
         python-version: ${{ matrix.python-version }}
 
+    - name: Install mypy
+      shell: bash -l {0}
+      run: pip install mypy
+
     - name: Run mypy
       shell: bash -l {0}
       run: |
