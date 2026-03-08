@@ -2,13 +2,9 @@ name: tensile_test
 channels:
   - conda-forge
 dependencies:
-  - atomistics =0.3.5
+  - ase =3.27.0
   - damask =3.0.2
   - requests =2.32.4
-  - sphinx_parser =0.1.6
-  - sphinxdft =3.1
-  - sphinxdft-data =0.0.1
-  - mendeleev =1.1.0
   - pip
   - pip:
     - coveralls
