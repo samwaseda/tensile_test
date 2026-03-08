@@ -8,8 +8,8 @@ from functools import cache
 from hashlib import sha256
 from pathlib import Path
 
+import ase
 from damask import YAML, ConfigMaterial, Rotation, GeomGrid, seeds, Result
-from mendeleev.fetch import fetch_table
 from tensile_test.tools import with_explicit_defaults, use_default
 
 
@@ -188,13 +188,14 @@ def _get_lattice_structure(key=None, lattice=None, chemical_symbol=None):
                 lattice = k.get("lattice_structure", None)
                 break
     if lattice is None:
-        if len(chemical_symbol) > 2:
-            lattice = get_atom_info(name=chemical_symbol)["lattice_structure"]
-        else:
-            lattice = get_atom_info(symbol=chemical_symbol)["lattice_structure"]
-    lattice = {"BCC": "cI", "HEX": "hP", "FCC": "cF", "BCT": "tI", "DIA": "cF"}.get(
-        lattice.upper(), lattice
-    )
+        lattice = ase_default_structure(chemical_symbol)
+    lattice = {
+        "bcc": "cI",
+        "hcp": "hP",
+        "fcc": "cF",
+        "diamond": "cF",
+        "tetragonal": "tI",
+    }.get(lattice.lower(), lattice)
     return lattice
 
 
@@ -234,28 +235,10 @@ def get_phase(
     return {sha256(str(d).encode("utf-8")).hexdigest(): d}
 
 
-def get_atom_info(difflib_cutoff=0.8, **kwargs):
-    """
-    Get atomic information from the periodic table.
-
-    Args:
-        difflib_cutoff (float): Cutoff for difflib.get_close_matches
-        **kwargs: Key-value pairs to search for
-
-    Returns:
-        dict: Atomic information
-    """
-    df = fetch_table("elements")
-    if len(kwargs) == 0:
-        raise ValueError("No arguments provided")
-    for key, tag in kwargs.items():
-        if difflib_cutoff < 1:
-            key = get_tag(key, df.keys(), cutoff=difflib_cutoff)
-            tag = get_tag(tag, df[key], cutoff=difflib_cutoff)
-            if sum(df[key] == tag) == 0:
-                raise KeyError(f"'{tag}' not found")
-            df = df[df[key] == tag]
-    return df.squeeze(axis=0).to_dict()
+def ase_default_structure(symbol):
+    Z = ase.data.chemical_symbols.index(symbol)
+    ref = ase.data.reference_states[Z]
+    return None if ref is None else ref["symmetry"]
 
 
 def get_tag(tag, arr, cutoff=0.8):

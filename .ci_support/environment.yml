@@ -1,10 +1,10 @@
-name: damask-test
+name: tensile_test
 channels:
   - conda-forge
 dependencies:
+  - ase =3.27.0
   - damask =3.0.2
   - requests =2.32.4
-  - mendeleev =1.1.0
   - pip
   - pip:
     - coveralls
