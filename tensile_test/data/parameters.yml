@@ -47,7 +47,7 @@ parameters:
   - name: h_sl-tw
     description: Hardening interaction between slip and twinning systems
     type: list[list[float]]
-    shape: matrix (N_sl × N_tw)
+    shape: N_sl × N_tw
     units: dimensionless
 
   - name: d_sc
@@ -93,7 +93,7 @@ parameters:
   - name: h_tw-tw
     description: Hardening interaction between twinning systems
     type: list[list[float]]
-    shape: matrix (N_tw × N_tw)
+    shape: N_tw × N_tw
     units: dimensionless
 
   - name: f_sol
@@ -169,7 +169,7 @@ parameters:
   - name: h_sl-tr
     description: Slip–transformation hardening interaction
     type: list[list[float]]
-    shape: matrix (N_sl × N_tr)
+    shape: N_sl × N_tr
     units: dimensionless
 
   - name: B
@@ -220,7 +220,7 @@ parameters:
   - name: h_0_sl-sl
     description: Initial slip–slip hardening modulus
     type: list[list[float]]
-    shape: matrix (N_sl × N_sl)
+    shape: N_sl × N_sl
     units: dimensionless
 
   - name: tau_Peierls_ed
